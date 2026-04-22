@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!-- Professional AstroAgent Logo (Indigo Theme) -->
+<link rel="icon" type="image/svg+xml" href="https://svgrepo.com">
+<title>AstroAgent</title>
+<link rel="stylesheet" href="/static/css/main.css">
+
+</head>
+<body>
+<div id="app">
+
+  <!-- ── Header ──────────────────────────────────────────────────── -->
+  <header id="topbar">
+    <div class="brand">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="3.5" fill="#818cf8"/>
+        <circle cx="10" cy="10" r="8.5" stroke="#818cf8" stroke-width="1" opacity=".35"/>
+        <line x1="10" y1="1" x2="10" y2="0"   stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="19" y1="10" x2="20" y2="10" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="10" y1="19" x2="10" y2="20" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="1"  y1="10" x2="0"  y2="10" stroke="#818cf8" stroke-width="1.5"/>
+      </svg>
+      <span class="brand-name">AstroAgent</span>
+      <span class="brand-v">v1</span>
+    </div>
+    <div class="topbar-mid">
+      <div class="model-row">
+        <label class="tl">Ollama URL</label>
+        <input id="ollama-url" type="text" value="http://localhost:11434" class="t-input" style="width:200px">
+        <button id="btn-refresh-models" class="icon-btn" title="Discover models">⟳</button>
+      </div>
+      <div class="model-row">
+        <label class="tl">Model</label>
+        <select id="model-select" class="t-input t-select">
+          <option value="">— click ⟳ to discover —</option>
+        </select>
+        <span id="model-status" class="model-status"></span>
+      </div>
+      <div class="model-row">
+        <label class="tl">Timeout</label>
+        <select id="timeout-select" class="t-input t-select" style="width:80px">
+          <option value="60">60s</option>
+          <option value="90" selected>90s</option>
+          <option value="120">120s</option>
+          <option value="180">3min</option>
+        </select>
+      </div>
+    </div>
+    <div id="status-pill" class="pill idle">Ready</div>
+  </header>
+
+  <!-- ── Layout ─────────────────────────────────────────────────── -->
+  <div id="layout">
+
+    <!-- Left sidebar: form -->
+    <aside id="sidebar">
+
+      <!-- Target -->
+      <div class="field-group">
+        <label class="field-lbl">Target Object</label>
+        <div class="autocomplete-wrap">
+          <input id="target-in" type="text" class="field-in"
+            placeholder="M31, Orion Nebula, M42…" autocomplete="off">
+          <div id="target-sug" class="sug-box hidden"></div>
+        </div>
+        <div id="target-chips" class="chips-row"></div>
+      </div>
+
+      <!-- Location with search -->
+      <div class="field-group">
+        <label class="field-lbl">Observer Location</label>
+        <div class="loc-wrap">
+          <div class="autocomplete-wrap">
+            <input id="location-in" type="text" class="field-in"
+              placeholder="Type city name or lat,lon…" autocomplete="off">
+            <div id="location-sug" class="sug-box hidden"></div>
+          </div>
+          <div id="loc-resolved" class="loc-tag hidden"></div>
+        </div>
+      </div>
+
+      <!-- Equipment with presets -->
+      <div class="field-group">
+        <label class="field-lbl">Equipment</label>
+        <div class="eq-tabs">
+          <button class="eq-tab active" data-cat="professional">Pro</button>
+          <button class="eq-tab" data-cat="casual">Casual</button>
+          <button class="eq-tab" data-cat="mobile">Mobile</button>
+          <button class="eq-tab" data-cat="custom">Custom</button>
+        </div>
+        <div id="eq-presets" class="eq-presets"></div>
+        <div id="eq-custom" class="hidden">
+          <textarea id="equipment-custom" class="field-in" rows="3"
+            placeholder="Describe your equipment e.g. 8-inch f/10 SCT, Canon 600D, EQ6 goto"></textarea>
+        </div>
+        <div id="eq-selected" class="eq-selected hidden"></div>
+      </div>
+
+      <!-- Date preference -->
+      <div class="field-group">
+        <label class="field-lbl">When</label>
+        <select id="date-in" class="field-in field-select">
+          <option value="tonight">Tonight</option>
+          <option value="tomorrow night">Tomorrow night</option>
+          <option value="this weekend" selected>This weekend</option>
+          <option value="next 7 days">Best of next 7 nights</option>
+        </select>
+      </div>
+
+      <button id="run-btn" class="run-btn">
+        <svg width="13" height="13" viewBox="0 0 13 13"><polygon points="2,1 12,6.5 2,12" fill="currentColor"/></svg>
+        Generate Plan
+      </button>
+
+    </aside>
+
+    <!-- Centre: agent stream + plan -->
+    <main id="main">
+      <div id="welcome" class="welcome">
+        <div class="orb"></div>
+        <h2>Multi-agent astrophotography planner</h2>
+        <p>Three specialised agents — target resolution, plan building, and adversarial critique — produce a session plan calibrated to your exact equipment, sky conditions, and location.</p>
+        <div class="agent-row">
+          <span class="a-pill ta">TargetAnalystAgent</span>
+          <span class="arr">→</span>
+          <span class="a-pill pb">PlanBuilderAgent</span>
+          <span class="arr">→</span>
+          <span class="a-pill cr">CriticAgent</span>
+        </div>
+      </div>
+      <div id="stream" class="stream hidden"></div>
+      <div id="plan-card" class="plan-card hidden"></div>
+    </main>
+
+    <!-- Right: 7-night calendar + critique -->
+    <aside id="right-panel" class="hidden">
+      <p class="panel-ttl">7-Night Forecast</p>
+      <div id="night-grid"></div>
+      <div id="critique-box" class="critique-box hidden">
+        <p class="panel-ttl" style="margin-top:14px">Critic Verdict</p>
+        <div id="critique-content"></div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

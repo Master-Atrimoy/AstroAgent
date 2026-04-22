@@ -1,0 +1,15 @@
+defaults:
+  - agent: default
+  - tools: default
+  - api: default
+  - _self_
+
+app:
+  name: AstroAgent
+  version: "2.0.0"
+
+ollama:
+  base_url: "http://localhost:11434"
+  model: "llama3.1"
+  temperature: 0.1
+  timeout: 90

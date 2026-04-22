@@ -1,0 +1,7 @@
+# @package tools
+weather:
+  open_meteo_url: "https://api.open-meteo.com/v1/forecast"
+  timeout_s: 10
+geocoder:
+  url: "https://geocoding-api.open-meteo.com/v1/search"
+  timeout_s: 8
