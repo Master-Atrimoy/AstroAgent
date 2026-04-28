@@ -1,0 +1,96 @@
+/* ── Reset ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 14px; }
+
+/* ── Tokens ──────────────────────────────────────────── */
+:root {
+  --bg:       #06080f;
+  --bg2:      #0d1120;
+  --bg3:      #111827;
+  --bg4:      #1a2235;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.14);
+  --text:     #e8eaf0;
+  --text2:    #8891a8;
+  --text3:    #4a5568;
+  --accent:   #a78bfa;
+  --accent2:  #7c3aed;
+  --accent3:  #5b21b6;
+  --gold:     #fbbf24;
+  --teal:     #2dd4bf;
+  --red:      #f87171;
+  --green:    #34d399;
+  --blue:     #60a5fa;
+  --mono:     'Courier New', monospace;
+  --sans:     system-ui, -apple-system, sans-serif;
+  --serif:    Georgia, serif;
+  --radius:   10px;
+  --radius-sm: 6px;
+  --radius-lg: 14px;
+  --shadow:   0 4px 24px rgba(0,0,0,0.5);
+}
+
+/* ── Base ─────────────────────────────────────────────── */
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Star field */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 8%  18%, rgba(255,255,255,.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 28% 52%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 54% 14%, rgba(255,255,255,.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 73% 36%, rgba(255,255,255,.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 89% 67%, rgba(255,255,255,.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 19% 81%, rgba(255,255,255,.2) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 44% 71%, rgba(255,255,255,.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 62% 88%, rgba(255,255,255,.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 84% 9%,  rgba(255,255,255,.4) 0%, transparent 100%);
+}
+
+/* ── Typography ──────────────────────────────────────── */
+h1, h2, h3 { line-height: 1.3; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ── Utilities ───────────────────────────────────────── */
+.hidden { display: none !important; }
+.mono { font-family: var(--mono); }
+.muted { color: var(--text3); }
+.accent { color: var(--accent); }
+.green  { color: var(--green); }
+.red    { color: var(--red); }
+.gold   { color: var(--gold); }
+
+/* ── Animations ──────────────────────────────────────── */
+@keyframes spin    { to { transform: rotate(360deg); } }
+@keyframes pulse   { 0%,100%{opacity:1} 50%{opacity:.4} }
+@keyframes fadeIn  { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+@keyframes slideIn { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:none} }
+
+.pulsing { animation: pulse 1.4s ease-in-out infinite; color: var(--text3); }
+.fade-in { animation: fadeIn .25s ease; }
+
+/* ── Spinner ──────────────────────────────────────────── */
+.spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,.25);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  vertical-align: middle;
+}

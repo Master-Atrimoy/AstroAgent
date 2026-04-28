@@ -1,0 +1,5 @@
+defaults:
+  - agent: default
+  - tools: default
+  - api: default
+  - _self_

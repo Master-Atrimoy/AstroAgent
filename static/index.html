@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepSkyAgent 🔭</title>
+
+  <!-- Leaflet map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Our CSS -->
+  <link rel="stylesheet" href="/static/css/base.css">
+  <link rel="stylesheet" href="/static/css/layout.css">
+  <link rel="stylesheet" href="/static/css/components.css">
+  <link rel="stylesheet" href="/static/css/map.css">
+  <link rel="stylesheet" href="/static/css/tabs.css">
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header id="app-header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">🔭</div>
+        <span class="logo-text"><em>DeepSky</em>Agent <sup>v2</sup></span>
+      </div>
+      <div class="header-meta">
+        <span id="hdr-date"></span>
+        <span class="model-pill" id="hdr-status">⏳ checking…</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-body">
+
+    <!-- ── Shared input panel ── -->
+    <aside class="sidebar" id="sidebar">
+
+      <!-- Location -->
+      <div class="panel">
+        <div class="panel-title">📍 Location</div>
+        <div class="location-input-row">
+          <div class="search-wrap" style="flex:1;">
+            <input type="text" id="location-input" placeholder="Search city or place…" autocomplete="off">
+            <div class="search-dropdown" id="location-dropdown"></div>
+          </div>
+          <button class="locate-me-btn" id="locate-me-btn" onclick="Geocoder.locateMe()" title="Use my current location">
+            <span id="locate-me-icon">📡</span>
+          </button>
+        </div>
+        <div class="locate-me-status hidden" id="locate-me-status"></div>
+        <div class="location-tag hidden" id="location-tag"></div>
+        <div id="map" class="map-container hidden"></div>
+      </div>
+
+      <!-- Target -->
+      <div class="panel">
+        <div class="panel-title">🎯 Target</div>
+        <div class="search-wrap">
+          <input type="text" id="target-input" placeholder="Search object or M-number…" autocomplete="off">
+          <div class="search-dropdown" id="target-dropdown"></div>
+        </div>
+        <div class="target-tag hidden" id="target-tag"></div>
+        <div class="cat-filter" id="cat-filter"></div>
+      </div>
+
+      <!-- Equipment -->
+      <div class="panel">
+        <div class="panel-title">🔭 Equipment</div>
+        <div class="preset-chips" id="preset-chips">
+          <button class="chip active" data-preset="casual">Casual</button>
+          <button class="chip" data-preset="pro">Pro</button>
+          <button class="chip" data-preset="mobile">Mobile</button>
+          <button class="chip" data-preset="custom">Custom…</button>
+        </div>
+        <div id="equipment-free-wrap" class="hidden">
+          <textarea id="equipment-free"
+            placeholder="Describe your setup e.g. 'Celestron NexStar 8SE with Canon EOS R on EQ6-R Pro'"
+            rows="3"></textarea>
+          <button class="btn-resolve" id="resolve-btn">🔍 Identify equipment</button>
+        </div>
+        <div class="equipment-card hidden" id="equipment-card"></div>
+      </div>
+
+      <!-- Model -->
+      <div class="panel">
+        <div class="panel-title">🤖 AI Model</div>
+        <select id="model-select">
+          <option value="llama3.2">llama3.2 (recommended)</option>
+        </select>
+        <div class="model-hint" id="model-hint">Loading available models…</div>
+      </div>
+
+    </aside>
+
+    <!-- ── Main content ── -->
+    <main class="main-content">
+
+      <!-- Tab switcher -->
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tab-btn-now"    data-tab="now">
+          ⚡ Right Now
+          <span class="tab-sub">instant scorer</span>
+        </button>
+        <button class="tab-btn"        id="tab-btn-ahead"  data-tab="ahead">
+          📅 Plan Ahead
+          <span class="tab-sub">7-night AI planner</span>
+        </button>
+      </div>
+
+      <!-- Catalogue status banner -->
+      <div class="cat-banner hidden" id="cat-banner">
+        <span id="cat-banner-text"></span>
+        <button onclick="App.applyLiveCatalogue()">Apply now</button>
+      </div>
+
+      <!-- Error box -->
+      <div class="error-box hidden" id="error-box"></div>
+
+      <!-- ── Tab 1: Right Now ── -->
+      <div class="tab-pane active" id="pane-now">
+        <button class="generate-btn" id="now-btn" onclick="Scorer.generate()">
+          ⚡ Score Right Now
+        </button>
+        <div id="now-narrative" class="narrative-box hidden"></div>
+        <div id="now-conditions" class="conditions-strip hidden"></div>
+        <div id="now-results"></div>
+      </div>
+
+      <!-- ── Tab 2: Plan Ahead ── -->
+      <div class="tab-pane" id="pane-ahead">
+        <button class="generate-btn generate-btn--purple" id="ahead-btn" onclick="Planner.generate()">
+          📅 Generate 7-Night Plan
+        </button>
+        <!-- Agent progress -->
+        <div class="agent-progress hidden" id="agent-progress">
+          <div class="progress-track" id="progress-track"></div>
+        </div>
+        <!-- 7-night grid -->
+        <div id="night-grid" class="night-grid hidden"></div>
+        <!-- Plan output -->
+        <div id="plan-output" class="hidden"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ── JS modules (order matters) ── -->
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/geocoder.js"></script>
+  <script src="/static/js/equipment.js"></script>
+  <script src="/static/js/catalogue.js"></script>
+  <script src="/static/js/scorer.js"></script>
+  <script src="/static/js/planner.js"></script>
+  <script src="/static/js/app.js"></script>
+
+</body>
+</html>

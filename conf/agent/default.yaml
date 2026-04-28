@@ -1,0 +1,21 @@
+planner:
+  target_window_days: 7
+  min_altitude_deg: 25.0
+  min_session_hours: 1.5
+  night_score_weights:
+    cloud: 0.40
+    seeing: 0.30
+    transparency: 0.20
+    altitude: 0.10
+
+critic:
+  moon_illumination_max_pct: 60.0
+  moon_separation_min_deg: 30.0
+  dew_point_margin_deg: 4.0
+  max_sub_fraction_of_window: 0.85
+  min_target_altitude_deg: 30.0
+  max_critique_loops: 2
+
+equipment_resolver:
+  llm_timeout_sec: 30
+  fallback_to_preset: true

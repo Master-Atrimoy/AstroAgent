@@ -1,0 +1,32 @@
+/* ── Tab bar ──────────────────────────────────────────── */
+.tab-bar {
+  display: flex; gap: 3px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 4px; margin-bottom: 16px;
+}
+.tab-btn {
+  flex: 1; padding: 10px 8px;
+  border-radius: calc(var(--radius) - 2px);
+  border: none; background: none;
+  color: var(--text2); font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all .2s;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  line-height: 1.2;
+}
+.tab-btn .tab-sub {
+  font-size: 10px; font-family: var(--mono);
+  color: var(--text3); font-weight: 400;
+}
+.tab-btn:hover { color: var(--text); background: var(--bg3); }
+.tab-btn.active {
+  background: var(--bg3); color: var(--text);
+  border: 1px solid var(--border2);
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.tab-btn.active[data-tab="now"]   { border-color: rgba(96,165,250,.3); color: var(--blue); }
+.tab-btn.active[data-tab="ahead"] { border-color: rgba(167,139,250,.3); color: var(--accent); }
+.tab-btn.active .tab-sub { color: inherit; opacity: .7; }
+
+/* ── Tab panes ────────────────────────────────────────── */
+.tab-pane { display: none; }
+.tab-pane.active { display: block; animation: fadeIn .2s ease; }

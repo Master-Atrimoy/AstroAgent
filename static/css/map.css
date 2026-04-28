@@ -1,0 +1,41 @@
+/* ── Map container ───────────────────────────────────── */
+.map-container {
+  height: 180px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  margin-top: 8px;
+  animation: fadeIn .3s ease;
+}
+
+/* ── Leaflet dark overrides ──────────────────────────── */
+.leaflet-container {
+  background: #0a0f1e !important;
+  font-family: var(--sans) !important;
+}
+.leaflet-tile-pane { filter: brightness(0.75) saturate(0.6) hue-rotate(200deg); }
+.leaflet-control-zoom a {
+  background: var(--bg2) !important;
+  border-color: var(--border2) !important;
+  color: var(--text2) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: var(--bg3) !important;
+  color: var(--text) !important;
+}
+.leaflet-control-attribution {
+  background: rgba(6,8,15,.7) !important;
+  color: var(--text3) !important;
+  font-size: 9px !important;
+}
+.leaflet-control-attribution a { color: var(--text3) !important; }
+
+/* ── Custom marker ───────────────────────────────────── */
+.star-marker {
+  width: 22px; height: 22px;
+  background: radial-gradient(circle at 40% 40%, #a78bfa, #4c1d95);
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 2px solid rgba(167,139,250,.6);
+  box-shadow: 0 0 10px rgba(167,139,250,.5);
+}

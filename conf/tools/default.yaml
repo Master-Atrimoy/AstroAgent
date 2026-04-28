@@ -1,0 +1,17 @@
+open_meteo:
+  forecast_url: "https://api.open-meteo.com/v1/forecast"
+  geocoding_url: "https://geocoding-api.open-meteo.com/v1/search"
+  timeout_sec: 10
+
+jpl_horizons:
+  timeout_sec: 15
+  enabled: true
+
+vizier:
+  timeout_sec: 30
+  mag_limit_buffer: 2.0   # fetch objects 2 mag fainter than equipment limit
+
+catalogue:
+  cache_ttl_hours: 6
+  cache_file: "catalogue_cache.json"
+  fallback_file: "backend/tools/fallback_catalogue.json"
