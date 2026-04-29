@@ -9,7 +9,7 @@
 
 ## What's new in v2
 
-| Feature            | v1 (AstroAgent)              | v2 (StarPlanner)                                                    |
+| Feature            | v1 (AstroAgent)              | v2 (DeepSkyAgent)                                                    |
 | ------------------ | ---------------------------- | ------------------------------------------------------------------- |
 | Frontend           | React + Vite (Node required) | Plain HTML/JS/CSS — no Node                                        |
 | Catalogue          | 25 static DSOs               | Live from Vizier/ephem/JPL + 32-object fallback                     |
@@ -33,7 +33,7 @@ ollama serve
 ollama pull llama3.2       # or mistral, gemma3, llama3.1:8b
 
 # 2. Python env
-cd StarPlanner
+cd DeepSkyAgent
 python -m venv venv
 venv\Scripts\activate      # Linux/Mac: source venv/bin/activate
 pip install -r requirements.txt
@@ -112,7 +112,7 @@ Progress collapses into a summary bar when done. Expand/collapse with  **Show lo
 ## Project structure
 
 ```
-StarPlanner/
+DeepSkyAgent/
 ├── main.py                        ← single entry point (uvicorn)
 ├── requirements.txt
 ├── .env.example
